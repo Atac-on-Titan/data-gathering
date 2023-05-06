@@ -5,7 +5,7 @@ import logging
 from datetime import datetime
 from pathlib import Path
 
-import requests
+from download import download_trip_updates, download_vehicle_positions
 
 if __name__ == "__main__":
     logging.basicConfig(filename='app.log', filemode='a', format='%(name)s:%(levelname)s:%(asctime)s - %(message)s')
@@ -23,12 +23,10 @@ if __name__ == "__main__":
     # Parse the arguments
     args = parser.parse_args()
 
-    base_url = "https://dati.comune.roma.it/catalog/dataset/a7dadb4a-66ae-4eff-8ded-a102064702ba/resource"
-    urls = {"trip-updates": f"{base_url}/bf7577b5-ed26-4f50-a590-38b8ed4d2827/download/rome_trip_updates.pb",
-            "vehicle-positions": f"{base_url}/d2b123d6-8d2d-4dee-9792-f535df3dc166/download/rome_vehicle_positions.pb"}
+    download = {"trip-updates": download_trip_updates, "vehicle-positions": download_vehicle_positions}
 
     # Extract the arguments
-    url = urls[args.type]
+    download = download[args.type]
     out_dir = args.output if args.output else "./"
 
     logger.info(f"Parsed arguments: type = {args.type}; output = {out_dir}")
@@ -38,9 +36,10 @@ if __name__ == "__main__":
     out_path = f"{out_dir}rome-{args.type}_{current_datetime}.pb"
     Path(out_dir).mkdir(parents=True, exist_ok=True)
 
-    logger.info(f"Fetching {args.type} file from: {url}.")
-    response = requests.get(url)
+    logger.info(f"Fetching {args.type} file.")
+
+    downloaded_data = download()
 
     logger.info(f"Writing into {out_path}")
     with open(out_path, mode='wb') as outfile:
-        outfile.write(response.content)
+        outfile.write(downloaded_data)
