@@ -1,0 +1,28 @@
+version: "3.9"
+
+volumes:
+  trip-updates:
+    name: trip-updates
+  vehicle-positions:
+    name: vehicle-positions
+  logs:
+    name: logs
+
+services:
+  trip-updates:
+    build: .
+    environment:
+      - type=trip-updates
+      - output_dir=./trip-updates
+    volumes:
+      - trip-updates:/app/trip-updates
+      - logs:/app/logs
+
+  vehicle-positions:
+    build: .
+    environment:
+      - type=vehicle-positions
+      - output_dir=./vehicle-positions
+    volumes:
+      - vehicle-positions:/app/vehicle-positions
+      - logs:/app/logs
