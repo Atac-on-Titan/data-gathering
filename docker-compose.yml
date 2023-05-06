@@ -13,7 +13,7 @@ services:
     build: .
     environment:
       - type=trip-updates
-      - output_dir=./trip-updates
+      - output_dir=./trip-updates/
     volumes:
       - trip-updates:/app/trip-updates
       - logs:/app/logs
@@ -22,7 +22,7 @@ services:
     build: .
     environment:
       - type=vehicle-positions
-      - output_dir=./vehicle-positions
+      - output_dir=./vehicle-positions/
     volumes:
       - vehicle-positions:/app/vehicle-positions
       - logs:/app/logs
