@@ -8,7 +8,10 @@ from pathlib import Path
 from download import download_trip_updates, download_vehicle_positions
 
 if __name__ == "__main__":
-    logging.basicConfig(filename='app.log', filemode='a', format='%(name)s:%(levelname)s:%(asctime)s - %(message)s')
+    log_dir = "logs"
+    Path(log_dir).mkdir(parents=True, exist_ok=True)
+    current_date = datetime.now().strftime("%Y-%m-%d")
+    logging.basicConfig(filename=f'{log_dir}/{current_date}_app.log', filemode='a', format='%(name)s:%(levelname)s:%(asctime)s - %(message)s')
     logger = logging.getLogger("download_real_time")
     logger.setLevel(logging.INFO)
 
