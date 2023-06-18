@@ -1,1 +1,6 @@
 requests
+protobuf
+gtfs-realtime-bindings
+pandas
+tqdm
+pyarrow
