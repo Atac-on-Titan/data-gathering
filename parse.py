@@ -10,7 +10,7 @@ from google.protobuf.message import DecodeError
 from google.transit import gtfs_realtime_pb2
 from tqdm import tqdm
 
-from parse import parse_stop_update, parse_vehicle_position
+from parse import parse_trip_update, parse_vehicle_position
 
 
 def add_missing_slash(path):
@@ -62,14 +62,14 @@ if __name__ == '__main__':
     parser.add_argument('-v', '--verbose', action='store_true', help="Verbose flag, will print out a tqdm loop.")
 
     group = parser.add_mutually_exclusive_group()
-    group.add_argument("-s", "--stop-updates", action="store_true", help="Parse stop updates.")
+    group.add_argument("-t", "--trip-updates", action="store_true", help="Parse trip updates.")
     group.add_argument("-p", "--vehicle-positions", action="store_true", help="Parse vehicle positions.")
 
     args = parser.parse_args()
 
     if args.stop_updates:
         out_name = "trip-updates.feather"
-        parse_update = parse_stop_update
+        parse_update = parse_trip_update
     elif args.vehicle_positions:
         out_name = "vehicle-positions.feather"
         parse_update = parse_vehicle_position

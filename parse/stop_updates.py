@@ -19,7 +19,7 @@ class StopUpdate:
         return ["trip_id", "start_time", "start_date", "route_id", "stop_sequence", "delay", "time", "uncertainty", "stop_id"]
 
 
-def parse_stop_update(feed):
+def parse_trip_update(feed):
     """Parses a single stop update .pb file.
 
     :arg
