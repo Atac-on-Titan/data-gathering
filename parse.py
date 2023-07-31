@@ -1,7 +1,7 @@
 import argparse
 import dataclasses
 import glob
-import logging
+import logging.config
 import os.path
 from pathlib import Path
 
@@ -12,6 +12,10 @@ from tqdm import tqdm
 
 from parse import parse_trip_update, parse_vehicle_position
 
+log_dir = "logs"
+Path(log_dir).mkdir(parents=True, exist_ok=True)
+logging.config.fileConfig("log_conf.ini")
+logger = logging.getLogger(__name__)
 
 def add_missing_slash(path):
     if path[-1] in ["/", "\\"]:
@@ -45,15 +49,6 @@ def save_updates(updates, path):
 
 
 if __name__ == '__main__':
-    log_dir = "logs"
-    Path(log_dir).mkdir(parents=True, exist_ok=True)
-
-    logging.basicConfig(format='%(name)s:%(levelname)s:%(asctime)s - %(message)s', handlers=[
-        logging.FileHandler("logs/debug.log", mode='a'),
-        logging.StreamHandler()
-    ])
-    logger = logging.getLogger(__name__)
-    logger.setLevel(logging.INFO)
 
     parser = argparse.ArgumentParser(description='Reading files')
 
@@ -67,14 +62,14 @@ if __name__ == '__main__':
 
     args = parser.parse_args()
 
-    if args.stop_updates:
+    if args.trip_updates:
         out_name = "trip-updates.feather"
         parse_update = parse_trip_update
     elif args.vehicle_positions:
         out_name = "vehicle-positions.feather"
         parse_update = parse_vehicle_position
     else:
-        logger.error(f"Either the stop updates (-s/--stop-updates) or vehicle positions (-p/--vehicle-positions) flag"
+        logger.error(f"Either the stop updates (-t/--trip-updates) or vehicle positions (-p/--vehicle-positions) flag"
                      f"must be defined")
         exit(1)
 
