@@ -54,27 +54,35 @@ docker compose up
 ```
 
 ## Parsing
-The [parse](parse.py) script reads all `.pb` files in a provided directory and combines the trip updates entries into
-a pandas dataframe.
+The [parse](parse.py) script reads all trip updates or vehicle positions `.pb` files in a provided directory and combines 
+the entries into a pandas dataframe.
 
 ### How to run
 1. Install requirements.
     ```
    pip install -r requirements.txt
    ```
-1. Run `parse` script with flags for the input `-i` and output directory `-o`. In the example below, replace `...`
-    with the path to the directory. The `-v` flag prints out the `tqdm` loop.
+1. Run `parse` script with flags for the input `-i` and output directory `-o`. The output directory is created if it 
+    does not exist. In the example below, replace `...`
+    with the path to the directory. The `-v` flag prints out the `tqdm` loop. You also have to specify whether you want
+    parse **trip-updates** (`-t`) or **vehicle-positions** (`-p`).
     ```
-   python read.py -i="..." -o="..."
+   python read.py -i="..." -o="..." -t
    ```
    For example, if the `.pb` files are in a `data/trip-updates/` and I want the output data frame to be in the current
     directory, you can run the script as follows:
     ```
-   python read.py -i="data/trip-updates" -o="./"
+   python read.py -i="data/trip-updates" -o="./" -t
    ```
 
-The output is a `trip-updates.feather` file in the specified output directory that contains the following columns:
+The output is a `.feather` file in the specified output directory that contains the following columns for trip updates:
 
 | trip_id | start_time | start_data | route_id | stop_sequence | delay | time | uncertainty | stop_id |
 |---------|------------|------------|----------|---------------|-------|------|-------------|---------|
 |         |            |            |          |               |       |      |             |         |
+
+
+and the following for vehicle positions:
+
+| vehicle_id | label | trip_id | route_id | direction_id | start_time | start_date | current_stop_sequence | stop_id | current_status | timestamp | latitude | longitude | odometer |
+|------------|-------|---------|----------|--------------|------------|------------|-----------------------|---------|----------------|-----------|----------|-----------|----------|
