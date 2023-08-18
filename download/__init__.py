@@ -1,2 +1,1 @@
-from .download import download_trip_updates
-from .download import download_vehicle_positions
+from .download import download_trip_updates, download_vehicle_positions, download_historical_weather
