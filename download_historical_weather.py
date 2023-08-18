@@ -3,8 +3,11 @@ import argparse
 import logging
 from datetime import datetime
 from pathlib import Path
-from download import download_historical_weather
+
 from dotenv import load_dotenv
+
+from download import download_historical_weather
+from parse import parse_weather
 
 if __name__ == "__main__":
     log_dir = "logs"
@@ -28,5 +31,13 @@ if __name__ == "__main__":
 
     Path(args.output).mkdir(parents=True, exist_ok=True)
 
-    download_historical_weather(args.start, args.end, city="ROMA", country="IT")
+    logger.info(f"Fetching historical weather data for timeframe: {args.start} - {args.end}")
+    weather_resp = download_historical_weather(args.start, args.end, city="ROMA", country="IT")
 
+    logger.info(f"Parsing downloaded weather data.")
+    weather_df = parse_weather(weather_resp)
+
+    output_path = f"{args.output}/weather_df.feather"
+
+    logger.info(f"Saving weather data to {output_path}")
+    weather_df.to_feather(output_path)

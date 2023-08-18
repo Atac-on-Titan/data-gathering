@@ -1,4 +1,5 @@
 """Module for downloading all of the data that we are interested in."""
+import json
 import os
 
 import requests
@@ -44,10 +45,10 @@ def download_historical_weather(start: int, end: int, **kwargs):
         country (str): a two letter country code.
 
     :return
-
+        (dict): the JSON response as a dictionary.
     """
     open_weather_base_url = "https://history.openweathermap.org/data/2.5/history/city"
-    api_key = os.getenv("api-key")
+    api_key = os.getenv("API_KEY")
 
     if "lat" in kwargs.keys() and "lon" in kwargs.keys():
         lat, lon = kwargs.get("lat"), kwargs.get("lon")
@@ -63,4 +64,5 @@ def download_historical_weather(start: int, end: int, **kwargs):
     else:
         raise ValueError("Required keyword arguments not present.")
 
-    return requests.get(query_url).content
+    response = requests.get(query_url)
+    return json.loads(response.text)
