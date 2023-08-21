@@ -4,8 +4,8 @@ Gathering the necessary data from ATAC and other sources for the project.
 # Python Scripts
 
 ## Downloading
-There is a single python script that can be used to either download the **trip-updates** files or the **vehicle-positions**
-files. The downloaded files will be saved with the time of the download in the file name in the **specified output directory**.
+There is a single python script that can be used to either download the **trip-updates** files, the **vehicle-positions**
+files, or **historical weather** data. The downloaded files will be saved with the time of the download in the file name in the **specified output directory**.
 
 The script also generates an `.log` file with log statements from the script in a `./logs` directory.
 
@@ -51,6 +51,23 @@ and **trip-updates**.
 
 ```bash
 docker compose up
+```
+
+### Weather Data
+The [download_historical_weather.py](download_historical_weather.py) script allows you to download **hourly historical
+weather data** for the city of Rome, using the [OpenWeather API](https://openweathermap.org/history). The data is saved in the specified **output** directory. 
+The OpenWeather API requires an **API key** (ask Jonas for it) to make requests. You need to create an `.env` file in the root
+directory and add the API key in it for the script to work. The script will automatically pick up the file.
+
+```
+API_KEY=...
+```
+
+To run the script, you need to specify start time `-s` in UTC UNIX, end time `-e` in UTC UNIX, and the output directory
+`-o`. The output directory is created if it does not exist. Replace `...` with your preferred values in the example below.
+
+```bash
+python download_historical_weather.py -s=... -e=... -o="..."
 ```
 
 ## Parsing

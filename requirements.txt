@@ -4,3 +4,4 @@ gtfs-realtime-bindings
 pandas
 tqdm
 pyarrow
+python-dotenv
