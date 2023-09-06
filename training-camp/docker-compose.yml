@@ -5,7 +5,7 @@ volumes:
     name: simone-tc
 
 services:
-  trip-updates:
+  simone-training-camp:
     build: .
     volumes:
       - simone-tc:/app/

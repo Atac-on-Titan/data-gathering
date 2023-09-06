@@ -11,4 +11,4 @@ RUN pip3 install -r requirements.txt
 COPY . .
 
 
-CMD ["python3 atac_script.py"]
+CMD ["python3", "atac_script.py"]
