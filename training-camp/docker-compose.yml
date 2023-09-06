@@ -7,5 +7,6 @@ volumes:
 services:
   simone-training-camp:
     build: .
+    image: ghcr.io/atac-on-titan/data-gathering:simone-training-camp
     volumes:
       - simone-tc:/app/
