@@ -1,0 +1,11 @@
+version: "3.9"
+
+volumes:
+  simone-tc:
+    name: simone-tc
+
+services:
+  trip-updates:
+    build: .
+    volumes:
+      - simone-tc:/app/
